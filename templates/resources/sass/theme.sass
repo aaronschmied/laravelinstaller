@@ -1,0 +1,104 @@
+
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap')
+
+$base-body-background: #f3f6f9
+
+$global-font-family: 'Lato', sans-serif
+$global-font-size: 15px
+$global-primary-background: #3eb5db
+$global-control-height: 46px
+
+$button-line-height: 36px
+
+$global-border-radius: 4px
+$global-border-radius-large: 6px
+
+$card-default-box-shadow: 0 12px 20px rgba(0,0,0,0.192)
+$input-box-shadow: 0 1px 6px rgba(0,0,0,0.08)
+
+$form-focus-border: rgba(0,0,0,0.3)
+
+@import "~uikit/src/scss/variables-theme.scss"
+@import "~uikit/src/scss/mixins-theme.scss"
+
+@mixin hook-form-label()
+  user-select: none
+
+@mixin hook-form-misc()
+  .uk-input,
+  .uk-select,
+  .uk-textarea,
+  .uk-checkbox
+    border-radius: $global-border-radius
+    box-shadow: $input-box-shadow
+
+@mixin hook-form-disabled()
+  box-shadow: none
+
+@mixin hook-card()
+  border-radius: $global-border-radius-large
+
+@mixin hook-alert()
+  border-radius: $global-border-radius
+
+@mixin hook-button()
+  transition: ease-in-out .2s
+  transition-property: background-color, box-shadow
+  font-weight: bold
+  text-transform: uppercase
+
+  border-radius: $global-control-height / 2
+  box-shadow: $input-box-shadow
+
+  & > .uk-icon
+    position: relative
+    top: -2px
+
+.uk-button-group
+
+  & > .uk-button
+    border-radius: 0
+
+  & > .uk-button:first-child
+    border-top-left-radius: $global-control-height / 2
+    border-bottom-left-radius: $global-control-height / 2
+
+  & > .uk-button:last-child
+    border-top-right-radius: $global-control-height / 2
+    border-bottom-right-radius: $global-control-height / 2
+
+.uk-tab > .uk-disabled
+  opacity: .5
+
+@mixin hook-button-focus()
+@mixin hook-button-hover()
+  box-shadow: $global-small-box-shadow
+
+@mixin hook-button-active()
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,.1)
+
+@mixin hook-modal-dialog()
+  transform: perspective(1000px) scale(0.95) translateY(-12%) rotateX(11deg)
+  box-shadow: 0 4px 4px rgba(0, 0, 0, .1), 0 1px 6px rgba(0, 0, 0, .05), 0 8px 8px rgba(0, 0, 0, .1), 0 16px 16px rgba(0, 0, 0, .1), 8px 32px 32px rgba(0, 0, 0, .15), 8px 64px 64px rgba(0, 0, 0, .15)
+
+@mixin hook-modal()
+  background: rgba(245,245,245,.2)
+  background: radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.8))
+  backdrop-filter: blur(10px)
+
+@import "~uikit/src/scss/uikit-theme.scss"
+
+.uk-border-remove-top
+  border-top: none !important
+
+.uk-border-remove-right
+  border-right: none !important
+
+.uk-border-remove-bottom
+  border-bottom: none !important
+
+.uk-border-remove-left
+  border-left: none !important
+
+.uk-border-remove
+  border: none !important

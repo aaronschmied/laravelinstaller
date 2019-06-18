@@ -1,0 +1,59 @@
+stages:
+  - build
+  - test
+  - deploy
+
+image: registry.pro-sales.ch/docker/php-ci-runner:1.0.3
+
+install_composer_dependencies:
+  stage: build
+  cache:
+    key: composer
+    paths:
+      - vendor/
+  script:
+    - composer install --no-progress --no-suggest --ignore-platform-reqs
+
+run_tests:
+  stage: test
+  cache:
+    key: composer
+    paths:
+      - vendor/
+    policy: pull
+  script:
+    - php vendor/bin/phpunit --coverage-text --colors=never
+
+code_quality:
+  stage: test
+  allow_failure: true
+  cache:
+    key: composer
+    paths:
+      - vendor/
+    policy: pull
+  script:
+    - php vendor/bin/phpcs -p -n --report=summary --standard=PSR2 app
+
+deploy_to_forge_dev_server:
+  stage: deploy
+  only:
+    - master
+  environment: dev
+  except:
+    variables:
+      - $FORGE_DEV_DEPLOYMENT_URL == null
+  script:
+    - curl $FORGE_DEV_DEPLOYMENT_URL
+
+deploy_to_forge_live_server:
+  stage: deploy
+  only:
+    - master
+  when: manual
+  environment: live
+  except:
+    variables:
+      - $FORGE_LIVE_DEPLOYMENT_URL == null
+  script:
+    - curl $FORGE_LIVE_DEPLOYMENT_URL
