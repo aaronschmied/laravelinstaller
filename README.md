@@ -20,6 +20,8 @@ laravelasm new MyProject
 
 This command will create a new project called "MyProject" and:
 - Install the composer dependencies
+- Add the ci configuration for gitlab
+- Add the codesniffer package
 - Install and configure vessel
 - Add the assets and the laravel-mix config
 - Add the base model class and behaviours
