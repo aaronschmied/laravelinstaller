@@ -246,12 +246,14 @@ class NewCommand extends Command
     {
         $output->writeln('<info>Copying the template files</info>');
 
-        $templateDirectory = dirname(__DIR__).'/templates/';
+        $templateDirectory = dirname(__DIR__).'/templates';
 
         $filesystem = new Filesystem;
 
         $filesystem->remove($appDirectory.'/resources/js');
         $filesystem->remove($appDirectory.'/resources/sass');
+        $filesystem->remove($appDirectory.'/public/js');
+        $filesystem->remove($appDirectory.'/public/css');
 
         $copyFiles = [
             'app/Behaviours',
