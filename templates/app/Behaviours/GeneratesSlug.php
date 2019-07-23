@@ -6,8 +6,9 @@
  * Time: 11:51
  */
 
-namespace App\Core\Behaviours;
+namespace App\Behaviours;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -33,16 +34,22 @@ trait GeneratesSlug
     /**
      * Determines if the slug should be unique.
      *
-     * @var bool
+     * @return bool
      */
-    protected $slugShouldBeUnique = false;
+    protected function slugShouldBeUnique(): bool
+    {
+        return false;
+    }
 
     /**
      * Set the slug separator.
      *
-     * @var string
+     * @return string
      */
-    protected $slugSeparator = '-';
+    protected function slugSeparator(): string
+    {
+        return '-';
+    }
 
     /**
      * Hook into the creating event and generate a new UUID.
@@ -51,7 +58,7 @@ trait GeneratesSlug
      */
     protected static function bootGeneratesSlug()
     {
-        static::creating(function (GeneratesSlug $model) {
+        static::creating(function (Model $model) {
             $model->makeSlug();
         });
     }
@@ -63,22 +70,19 @@ trait GeneratesSlug
      */
     public function makeSlug()
     {
-        $slug = Str::slug($this->getSlugSource(), $this->slugSeparator, app()->getLocale());
+        $slug = Str::slug($this->getSlugSource(), $this->slugSeparator(), app()->getLocale());
 
-        if ($this->slugShouldBeUnique) {
-
+        if ($this->slugShouldBeUnique()) {
             $rounds = 0;
 
             do {
-
                 if ($rounds > 0) {
-
                     $source = implode(' ', [
                         $this->getSlugSource(),
                         Str::random($rounds),
                     ]);
 
-                    $slug = Str::slug($source, $this->slugSeparator, app()->getLocale());
+                    $slug = Str::slug($source, $this->slugSeparator(), app()->getLocale());
                 }
 
                 $validator = Validator::make(compact('slug'), [
@@ -86,7 +90,6 @@ trait GeneratesSlug
                 ]);
 
                 $rounds++;
-
             } while ($validator->fails());
         }
 

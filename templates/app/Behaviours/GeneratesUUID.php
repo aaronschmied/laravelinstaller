@@ -6,9 +6,9 @@
  * Time: 19:07
  */
 
-namespace App\Core\Behaviours;
+namespace App\Behaviours;
 
-
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 trait GeneratesUUID

@@ -6,7 +6,7 @@
  * Time: 12:48
  */
 
-namespace App\Core\Behaviours;
+namespace App\Behaviours;
 
 use Illuminate\Database\Eloquent\SoftDeletes as BaseSoftDeletes;
 
