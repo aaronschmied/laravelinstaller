@@ -8,7 +8,6 @@
 
 namespace App\Listeners;
 
-
 use App\Events\RuntimeEvent;
 
 abstract class RuntimeListener
