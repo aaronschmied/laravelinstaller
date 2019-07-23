@@ -3,7 +3,7 @@ stages:
   - test
   - deploy
 
-image: registry.pro-sales.ch/docker/php-ci-runner:1.0.3
+image: registry.pro-sales.ch/docker/php-ci-runner:1.1.0
 
 install_composer_dependencies:
   stage: build
