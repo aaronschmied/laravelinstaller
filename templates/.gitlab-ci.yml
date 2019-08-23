@@ -22,7 +22,11 @@ run_tests:
       - vendor/
     policy: pull
   script:
-    - php vendor/bin/phpunit --coverage-text --colors=never
+    - echo -e "section_end:"`date +%s`":build_script\r\e[0Ksection_start:"`date +%s`":phpunit_cache_xdebug_filter\r\e[0KCaching xdebug filters"
+    - php vendor/bin/phpunit --dump-xdebug-filter .xdebug-filter-dump.php
+    - echo -e "section_end:"`date +%s`":phpunit_cache_xdebug_filter\r\e[0Ksection_start:"`date +%s`":phpunit_run_testsuite\r\e[0KRunning test suite"
+    - php vendor/bin/phpunit --prepend .xdebug-filter-dump.php --coverage-text --colors=never
+    - echo -e "section_end:"`date +%s`":phpunit_run_testsuite\r\e[0Ksection_start:"`date +%s`":build_script\r\e[0K"
 
 code_quality:
   stage: test
