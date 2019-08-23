@@ -11,6 +11,8 @@ namespace App\Behaviours;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Unique;
 
 trait GeneratesSlug
 {
@@ -30,6 +32,15 @@ trait GeneratesSlug
      * @return string
      */
     abstract protected function getSlugSource(): string;
+
+    /**
+     * Modify the uniqueness rule of the slug checker.
+     *
+     * @param Unique $rule
+     */
+    protected function validateSlugUniquenessWith(Unique &$rule)
+    {
+    }
 
     /**
      * Determines if the slug should be unique.
@@ -70,7 +81,8 @@ trait GeneratesSlug
      */
     public function makeSlug()
     {
-        $slug = Str::slug($this->getSlugSource(), $this->slugSeparator(), app()->getLocale());
+        $slug = $this->getAttribute($this->getSlugKey())
+            ?? Str::slug($this->getSlugSource(), $this->slugSeparator(), app()->getLocale());
 
         if ($this->slugShouldBeUnique()) {
             $rounds = 0;
@@ -78,15 +90,22 @@ trait GeneratesSlug
             do {
                 if ($rounds > 0) {
                     $source = implode(' ', [
-                        $this->getSlugSource(),
+                        $this->getAttribute($this->getSlugKey()) ?? $this->getSlugSource(),
                         Str::random($rounds),
                     ]);
 
                     $slug = Str::slug($source, $this->slugSeparator(), app()->getLocale());
                 }
 
+                $uniqueRule = Rule::unique($this->getTable(), $this->getSlugKey());
+
+                $this->validateSlugUniquenessWith($uniqueRule);
+
                 $validator = Validator::make(compact('slug'), [
-                    'slug' => ['required', "unique:{$this->getTable()},{$this->getSlugKey()}"]
+                    'slug' => [
+                        'required',
+                        $uniqueRule,
+                    ]
                 ]);
 
                 $rounds++;
