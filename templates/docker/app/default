@@ -13,7 +13,7 @@ server {
     location = /robots.txt  { log_not_found off; access_log off; }
 
     include h5bp/basic.conf;
-    include h5bp/socket.io.conf;
+    # include h5bp/socket.io.conf;
 
     client_max_body_size 100M;
 
