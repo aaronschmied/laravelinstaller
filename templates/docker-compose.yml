@@ -15,21 +15,21 @@ services:
      - .:/var/www/html:delegated
     networks:
      - [PROJECT]
-  node:
-    build:
-      context: ./docker/node
-      dockerfile: Dockerfile
-      args:
-        uid: "${WWWUSER}"
-    image: [PROJECT]/node
-    user: node
-    command:
-      - node_modules/.bin/laravel-echo-server
-      - start
-    volumes:
-     - .:/var/www/html:delegated
-    networks:
-     - [PROJECT]
+#  node:
+#    build:
+#      context: ./docker/node
+#      dockerfile: Dockerfile
+#      args:
+#        uid: "${WWWUSER}"
+#    image: [PROJECT]/node
+#    user: node
+#    command:
+#      - node_modules/.bin/laravel-echo-server
+#      - start
+#    volumes:
+#     - .:/var/www/html:delegated
+#    networks:
+#     - [PROJECT]
   mysql:
     image: mysql:5.7
     ports:
