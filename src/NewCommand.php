@@ -183,9 +183,6 @@ class NewCommand extends Command
         $filesystem->remove($appDirectory . '/public/css');
 
         $copyFiles = [
-            'app/Behaviours',
-            'app/Foundation',
-            'app/Events',
             'docker/app/default',
             'docker/app/h5bp/socket.io.conf',
             'resources/js',
